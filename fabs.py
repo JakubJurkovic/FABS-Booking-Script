@@ -6,17 +6,16 @@ from msedge.selenium_tools import Edge, EdgeOptions
 
 ####################################################
 #               FABS BOOKING BOT                   #
-#                    v0.1                          #
+#                    v0.2                          #
 # This script uses MsEdge driver & Selenium 3.14   #
 # ------------------------------------------------ #
 #                  To Do:                          #
 # - make the time.sleep dependant on the loading   #
-# - make the username pass                         #
 ####################################################
 
-login = "username" # Also update login down still needs to be hardcoded
-pwd = "password"
-slot = "1" # relative slot position, e.g. if I want the earliest slot it will be the number 1
+username = "pgsa.jakub@gmail.com"
+pwd = "Poliklinika9317."
+slot = "7"
 
 PATH = "C:\Program Files (x86)\msedgedriver.exe"
 PROFILE = r"C:\Users\pgsaj\AppData\Local\Microsoft\Edge\User Data"
@@ -36,7 +35,7 @@ def gym(t,user,pd):
 	for i in range(2): # goes to the slot page of 2 days in advance
 		driver.find_element_by_xpath("/html/body/div/div/section/div/div/div/div[2]/div/div/div/div[1]/div[2]/div[3]/a[2]/i").click()
 	time.sleep(1)
-	pickslot(t,l,p) # clicks on the slot
+	pickslot(t,user,pd) # clicks on the slot
 
 # Books for the swimming pool
 def pool(t,user,pd):
@@ -61,7 +60,7 @@ def pickslot(t,user,pd):
 def login(user,pd):	
 	driver.find_element_by_xpath("/html/body/div[2]/div[2]/a").click() # Logs in as a local User
 	time.sleep(1)
-	driver.find_element_by_xpath("/html/body/div[2]/form/div[1]/div[1]/input").send_keys("username") # As of now it is hardcored, because it doesn't accept variable 
+	driver.find_element_by_xpath("/html/body/div[2]/form/div[1]/div[1]/input").send_keys(user) # As of now it is hardcored, because it doesn't accept variable 
 	driver.find_element_by_xpath("/html/body/div[2]/form/div[1]/div[2]/input").send_keys(pd) # Inserts pwd
 	driver.find_element_by_xpath("/html/body/div[2]/form/div[2]/div/button").click() # Enter
 
@@ -71,4 +70,4 @@ def waitforseven():
 		time.sleep(1)
 		print("1 sec")
 
-gym(slot,login,pwd)
+pool(slot,username,pwd)
