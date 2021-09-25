@@ -6,11 +6,12 @@ from msedge.selenium_tools import Edge, EdgeOptions
 
 ####################################################
 #               FABS BOOKING BOT                   #
-#                    v0.1                          #
+#                    v0.3                          #
 # This script uses MsEdge driver & Selenium 3.14   #
 # ------------------------------------------------ #
 #                  To Do:                          #
 # - make the time.sleep dependant on the loading   #
+# - possibly a GUI                                 #
 ####################################################
 
 PATH = "C:\Program Files (x86)\msedgedriver.exe" # Update for your Edge driver
