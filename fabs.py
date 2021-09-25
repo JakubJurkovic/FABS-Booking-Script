@@ -8,6 +8,7 @@ from msedge.selenium_tools import Edge, EdgeOptions
 #               FABS BOOKING BOT                   #
 #                    v0.3                          #
 # This script uses MsEdge driver & Selenium 3.14   #
+# The bot requires a "local account" on FABS       #
 # ------------------------------------------------ #
 #                  To Do:                          #
 # - make the time.sleep dependant on the loading   #
@@ -21,6 +22,7 @@ driver = Edge(executable_path=PATH, options=edge_options)
 actions = ActionChains(driver)
 driver.get("https://nyuad.dserec.com/online/capacity_widget")
 
+##########################################
 #              USER SETTINGS             #
 ##########################################
 username = "username"
