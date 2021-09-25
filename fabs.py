@@ -67,7 +67,11 @@ def login(user,pd):
 # A loop that will sleep the system for 1 sec until it is 7AM
 def waitforseven():
 	while (time.localtime()[3]) != 7:
-		time.sleep(1)
-		print("1 sec")
+		if time.localtime()[4] < 59:
+			time.sleep((59-time.localtime()[4])*60)
+			print(string((59-time.localtime()[4])*60)+" seconds")
+		else:
+			time.sleep(1)
+			print("1 sec")
 
 pool(slot,username,pwd)
