@@ -6,7 +6,7 @@ from msedge.selenium_tools import Edge, EdgeOptions
 
 ####################################################
 #               FABS BOOKING BOT                   #
-#                    v0.3                          #
+#                    v0.4                          #
 # This script uses MsEdge driver & Selenium 3.14   #
 # The bot requires a "local account" on FABS       #
 # ------------------------------------------------ #
@@ -56,12 +56,13 @@ def pool(t,user,pd):
 # Clicks on the slot
 def pickslot(t,user,pd):
 	waitforseven() # A loop that will sleep the system until it is 7am
-	driver.find_element_by_xpath("/html/body/div/div/section/div/div/div/div[2]/div/div/div/div[1]/div[2]/div[4]/div/div/div/div/div["+t+"]").click() # Clicks on the slot		
+	driver.find_element_by_xpath("/html/body/div/div/section/div/div/div/div[2]/div/div/div/div[1]/div[2]/div[4]/div/div/div/div/div["+str(t)+"]").click() # Clicks on the slot		
 	time.sleep(1)
 	driver.find_element_by_xpath("/html/body/div/div/section/div/div/div/div[2]/div/div/div/div[2]/div/div/div/div[3]/div[2]/button[2]").click() # Confirm
 
 # Logs in the user	
-def login(user,pd):	
+def login(user,pd):
+	waitforsix55() # if the login happens too early the session will expire	
 	driver.find_element_by_xpath("/html/body/div/div/ul/li").click() # Click the login button
 	driver.find_element_by_xpath("/html/body/div[2]/div[2]/a").click() # Logs in as a local User
 	time.sleep(1)
@@ -71,10 +72,21 @@ def login(user,pd):
 
 # A loop that will sleep the system for 1 sec until it is 7AM
 def waitforseven():
-	while (time.localtime()[3]) != 7:
+	while (time.localtime()[3]) < 7:
 		if time.localtime()[4] < 59:
 			print(str((59-time.localtime()[4])*60)+" seconds") # Gives info for how many seconds is the code frozen
 			time.sleep((59-time.localtime()[4])*60)
+
+		else:
+			print("1 sec")
+			time.sleep(1)
+
+# A loop that will sleep the system until 6:55AM
+def waitforsix55():
+	while time.localtime()[3] < 6 and time.localtime()[4] < 55:
+		if time.localtime()[4] < 54:
+			print(str((54-time.localtime()[4])*60)+" seconds") # Gives info for how many seconds is the code frozen
+			time.sleep((54-time.localtime()[4])*60)
 
 		else:
 			print("1 sec")
