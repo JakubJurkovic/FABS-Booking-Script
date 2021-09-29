@@ -6,7 +6,7 @@ from msedge.selenium_tools import Edge, EdgeOptions
 
 ####################################################
 #               FABS BOOKING BOT                   #
-#                    v0.4                          #
+#                    v0.4.3                        #
 # This script uses MsEdge driver & Selenium 3.14   #
 # The bot requires a "local account" on FABS       #
 # ------------------------------------------------ #
@@ -33,28 +33,25 @@ slot = "1" # give relative numerical position of the slot, e.g. 1 if you want th
 
 
 # Books from Co-Ed gym
-def gym(t,user,pd):
+def gym(t):
 	time.sleep(1)
-	login(user,pd)
-	actions.move_to_element_with_offset(driver.find_element_by_tag_name('body'), 0,0) #r esets the mouse position
-	actions.move_by_offset(50, 570).click().perform() # hardcoded position of the fitness center
+	actions.move_to_element_with_offset(driver.find_element_by_tag_name('body'), 50,600).click().perform() #clicks on the fitness center
 	for i in range(2): # goes to the slot page of 2 days in advance
 		driver.find_element_by_xpath("/html/body/div/div/section/div/div/div/div[2]/div/div/div/div[1]/div[2]/div[3]/a[2]/i").click()
 	time.sleep(1)
-	pickslot(t,user,pd) # clicks on the slot
+	pickslot(t) # clicks on the slot
 
 # Books for the swimming pool
-def pool(t,user,pd):
-	login(user,pd)
-	actions.move_to_element_with_offset(driver.find_element_by_tag_name('body'), 0,0)
-	actions.move_by_offset(50, 300).click().perform()
+def pool(t):
+	time.sleep(1)
+	actions.move_to_element_with_offset(driver.find_element_by_tag_name('body'), 50,330).click().perform()
 	for i in range(2):
 		driver.find_element_by_xpath("/html/body/div/div/section/div/div/div/div[2]/div/div/div/div[1]/div[2]/div[3]/a[2]/i").click()
 	time.sleep(1)
-	pickslot(t,user,pd)
+	pickslot(t)
 
-# Clicks on the slot
-def pickslot(t,user,pd):
+# Clicks on the slotF
+def pickslot(t):
 	waitforseven() # A loop that will sleep the system until it is 7am
 	driver.find_element_by_xpath("/html/body/div/div/section/div/div/div/div[2]/div/div/div/div[1]/div[2]/div[4]/div/div/div/div/div["+str(t)+"]").click() # Clicks on the slot		
 	time.sleep(1)
@@ -74,28 +71,29 @@ def login(user,pd):
 def waitforseven():
 	while (time.localtime()[3]) < 7:
 		if time.localtime()[4] < 59:
-			print(str((59-time.localtime()[4])*60)+" seconds") # Gives info for how many seconds is the code frozen
+			print("Waiting for "+str((59-time.localtime()[4])*60)+" seconds") # Gives info for how many seconds is the code frozen
 			time.sleep((59-time.localtime()[4])*60)
 
 		else:
-			print("1 sec")
+			print("Waiting for 1 sec")
 			time.sleep(1)
 
 # A loop that will sleep the system until 6:55AM
 def waitforsix55():
 	while time.localtime()[3] < 6 and time.localtime()[4] < 55:
 		if time.localtime()[4] < 54:
-			print(str((54-time.localtime()[4])*60)+" seconds") # Gives info for how many seconds is the code frozen
+			print("Waiting for "+str((54-time.localtime()[4])*60)+" seconds") # Gives info for how many seconds is the code frozen
 			time.sleep((54-time.localtime()[4])*60)
 
 		else:
-			print("1 sec")
+			print("Waiting for 1 sec")
 			time.sleep(1)
 
 def book(facility, slot, username, password):
+	login(username,password)
 	if facility == "gym":
-		gym(slot, username, password)
+		gym(slot)
 	elif facility == "pool":
-		pool(slot, username, password)
+		pool(slot)
 
 book(facility, slot, username, password)
