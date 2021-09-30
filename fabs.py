@@ -1,14 +1,16 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
-import time
 from msedge.selenium_tools import Edge, EdgeOptions
+import time, pause, datetime
 
 ####################################################
 #               FABS BOOKING BOT                   #
-#                    v0.4.3                        #
-# This script uses MsEdge driver & Selenium 3.14   #
-# The bot requires a "local account" on FABS       #
+#                    v0.5                          #
+# Requirements:                                    #
+# MsEdge driver & Selenium 3.14                    #
+# "local account" on FABS                          #
+# pause package (pip install pause)                #
 # ------------------------------------------------ #
 #                  To Do:                          #
 # - make the time.sleep dependant on the loading   #
@@ -22,14 +24,23 @@ driver = Edge(executable_path=PATH, options=edge_options)
 actions = ActionChains(driver)
 driver.get("https://nyuad.dserec.com/online/capacity_widget")
 
-##########################################
 #              USER SETTINGS             #
 ##########################################
-username = "username"
-password = "password"
-facility = "facility" # "gym" or "pool"
-slot = "1" # give relative numerical position of the slot, e.g. 1 if you want the first slot
+username = "your username"
+password = "your password"
+facility = "1" # "gym" or "pool"
+slot = 3 #slot number, indexing starts at 1
 ##########################################
+
+
+# This calculates when should the bot run
+if time.localtime()[3] <= 7:
+	run = time.localtime()
+elif time.localtime()[3] > 7:
+	run = time.localtime(time.time() + 24*3600)
+
+botlogin = datetime.datetime(run[0], run[1], run[2], 6, 55, 0)
+botrun = datetime.datetime(run[0], run[1], run[2], 7, 0, 1)
 
 
 # Books from Co-Ed gym
@@ -52,42 +63,22 @@ def pool(t):
 
 # Clicks on the slotF
 def pickslot(t):
-	waitforseven() # A loop that will sleep the system until it is 7am
+	print("Freeze until 7AM")
+	pause.until(botrun) # Pauses until the system time is 7am and 1 second
 	driver.find_element_by_xpath("/html/body/div/div/section/div/div/div/div[2]/div/div/div/div[1]/div[2]/div[4]/div/div/div/div/div["+str(t)+"]").click() # Clicks on the slot		
 	time.sleep(1)
 	driver.find_element_by_xpath("/html/body/div/div/section/div/div/div/div[2]/div/div/div/div[2]/div/div/div/div[3]/div[2]/button[2]").click() # Confirm
 
 # Logs in the user	
 def login(user,pd):
-	waitforsix55() # if the login happens too early the session will expire	
+	print("Freeze until 6:55AM")
+	pause.until(botlogin) # if the login happens too early the session will expire	
 	driver.find_element_by_xpath("/html/body/div/div/ul/li").click() # Click the login button
 	driver.find_element_by_xpath("/html/body/div[2]/div[2]/a").click() # Logs in as a local User
 	time.sleep(1)
 	driver.find_element_by_xpath("/html/body/div[2]/form/div[1]/div[1]/input").send_keys(user) # As of now it is hardcored, because it doesn't accept variable 
 	driver.find_element_by_xpath("/html/body/div[2]/form/div[1]/div[2]/input").send_keys(pd) # Inserts pwd
 	driver.find_element_by_xpath("/html/body/div[2]/form/div[2]/div/button").click() # Enter
-
-# A loop that will sleep the system for 1 sec until it is 7AM
-def waitforseven():
-	while (time.localtime()[3]) < 7:
-		if time.localtime()[4] < 59:
-			print("Waiting for "+str((59-time.localtime()[4])*60)+" seconds") # Gives info for how many seconds is the code frozen
-			time.sleep((59-time.localtime()[4])*60)
-
-		else:
-			print("Waiting for 1 sec")
-			time.sleep(1)
-
-# A loop that will sleep the system until 6:55AM
-def waitforsix55():
-	while time.localtime()[3] < 6 and time.localtime()[4] < 55:
-		if time.localtime()[4] < 54:
-			print("Waiting for "+str((54-time.localtime()[4])*60)+" seconds") # Gives info for how many seconds is the code frozen
-			time.sleep((54-time.localtime()[4])*60)
-
-		else:
-			print("Waiting for 1 sec")
-			time.sleep(1)
 
 def book(facility, slot, username, password):
 	login(username,password)
