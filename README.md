@@ -6,10 +6,10 @@
 | Libraries | Download |
 | ------ | ------ |
 | Python | www.python.org |
-| Edge Driver | developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/ |
-| Selenium | pypi.org/project/selenium/ |
-| Edge Tools | pypi.org/project/msedge-selenium-tools/ |
-| Pause | pypi.org/project/pause/ |
+| Edge Driver | www.developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/ |
+| Selenium | www.pypi.org/project/selenium/ |
+| Edge Tools | www.pypi.org/project/msedge-selenium-tools/ |
+| Pause | www.pypi.org/project/pause/ |
 
 #### Command Line Instructions
 Run these commands in your command line **after** installing Python
