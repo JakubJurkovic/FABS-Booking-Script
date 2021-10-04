@@ -7,10 +7,6 @@ import time, pause, datetime
 ####################################################
 #               FABS BOOKING BOT                   #
 #                    v0.6                          #
-# Requirements:                                    #
-# MsEdge driver & Selenium 3.14                    #
-# "local account" on FABS                          #
-# pause package (pip install pause)                #
 # ------------------------------------------------ #
 #                  To Do:                          #
 # - make the time.sleep dependant on the loading   #
@@ -59,8 +55,11 @@ def pickslot(t):
 	driver.find_element_by_xpath("/html/body/div/div/section/div/div/div/div[2]/div/div/div/div[1]/div[2]/div[4]/div/div/div/div/div["+str(t)+"]").click() # Clicks on the slot		
 	time.sleep(1)
 	if isitopen() == True: # Verifies if the slot is open, if not it will just close the action window
-		driver.find_element_by_xpath("/html/body/div/div/section/div/div/div/div[2]/div/div/div/div[2]/div/div/div/div[3]/div[2]/button[2]").click() # Confirm selection
-		return True # booking success
+		try:
+			driver.find_element_by_xpath("/html/body/div/div/section/div/div/div/div[2]/div/div/div/div[2]/div/div/div/div[3]/div[2]/button[2]").click() # Confirm selection
+			return True # booking success
+		except:
+			return False
 	elif isitopen() == False:
 		driver.find_element_by_xpath("/html/body/div/div/section/div/div/div/div[2]/div/div/div/div[2]/div/div/div/div[2]/div[2]/button").click() # Close
 		return False # booking fail
