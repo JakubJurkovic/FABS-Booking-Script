@@ -1,12 +1,11 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.action_chains import ActionChains
 from msedge.selenium_tools import Edge, EdgeOptions
 import time, pause, datetime
 
 ####################################################
 #               FABS BOOKING BOT                   #
-#                    v0.6                          #
+#                    v0.7                          #
 # ------------------------------------------------ #
 #                  To Do:                          #
 # - make the time.sleep dependant on the loading   #
@@ -17,7 +16,6 @@ PATH = "C:\Program Files (x86)\msedgedriver.exe" # Update for your Edge driver
 edge_options = EdgeOptions()
 edge_options.use_chromium = True
 driver = Edge(executable_path=PATH, options=edge_options)
-actions = ActionChains(driver)
 driver.get("https://nyuad.dserec.com/online/capacity_widget")
 
 ##########################################
@@ -29,7 +27,7 @@ facility = "facility" # "gym" or "pool" or "wogym"
 slot = 3 #slot number, indexing starts at 1
 ##########################################
 
-# This calculates when should the bot perform login and booking
+ This calculates when should the bot perform login and booking
 if time.localtime()[3] <= 7:
 	run = time.localtime()
 elif time.localtime()[3] > 7:
@@ -41,11 +39,11 @@ botrun = datetime.datetime(run[0], run[1], run[2], 7, 0, 1)
 def choosefacility(facility):
 	time.sleep(1)
 	if facility == "gym":
-		actions.move_to_element_with_offset(driver.find_element_by_tag_name('body'), 50,600).click().perform() # clicks on the fitness center
+		driver.find_element_by_xpath("/html/body/div/div/section/div/div/div/div[2]/div/div/div/div[1]/div[1]/ul/li[8]").click() # clicks on the fitness center
 	elif facility == "pool":
-		actions.move_to_element_with_offset(driver.find_element_by_tag_name('body'), 50,330).click().perform() # clicks on pool
+		driver.find_element_by_xpath("/html/body/div/div/section/div/div/div/div[2]/div/div/div/div[1]/div[1]/ul/li[2]").click() # clicks on pool
 	elif facility == "wogym":
-		actions.move_to_element_with_offset(driver.find_element_by_tag_name('body'), 50,825).click().perform() # clicks on the WO fitness center
+		driver.find_element_by_xpath("/html/body/div/div/section/div/div/div/div[2]/div/div/div/div[1]/div[1]/ul/li[13]").click() # clicks on the WO fitness center
 	for i in range(2): # goes to the slot page of 2 days in advance
 		driver.find_element_by_xpath("/html/body/div/div/section/div/div/div/div[2]/div/div/div/div[1]/div[2]/div[3]/a[2]/i").click()
 	time.sleep(1)
