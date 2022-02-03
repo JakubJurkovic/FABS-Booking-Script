@@ -1,7 +1,7 @@
 # Fabs booking script
 ##### This is a simple python based script to book your gym slot!
 
-### Version 0.7.1
+### Version 0.8
 
 # Installation 
 #### Requirements
@@ -17,12 +17,14 @@ Run these commands in your command line **after** installing Python
 ```sh
 pip install selenium
 pip install pause
+pip install webdriver-manager
 ```
 
-To update from 0.7 to 0.7.1, run following
+To update from 0.7 to 0.7.1+, run following
 ```sh
 pip install --upgrade selenium
 pip uninstall msedge-selenium-tools
+pip install webdriver-manager
 ```
 and possibly check for an update for your Edge Driver
 
