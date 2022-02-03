@@ -1,11 +1,10 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from msedge.selenium_tools import Edge, EdgeOptions
 import time, pause, datetime
 
 ####################################################
 #               FABS BOOKING BOT                   #
-#                    v0.7                          #
+#                    v0.7.1                        #
 # ------------------------------------------------ #
 #                  To Do:                          #
 # - make the time.sleep dependant on the loading   #
@@ -13,9 +12,7 @@ import time, pause, datetime
 ####################################################
 
 PATH = "C:\Program Files (x86)\msedgedriver.exe" # Update for your Edge driver
-edge_options = EdgeOptions()
-edge_options.use_chromium = True
-driver = Edge(executable_path=PATH, options=edge_options)
+driver = webdriver.Edge(executable_path=PATH, options=edge_options)
 driver.get("https://nyuad.dserec.com/online/capacity_widget")
 
 ##########################################
@@ -27,7 +24,7 @@ facility = "facility" # "gym" or "pool" or "wogym"
 slot = 3 #slot number, indexing starts at 1
 ##########################################
 
- This calculates when should the bot perform login and booking
+# This calculates when should the bot perform login and booking
 if time.localtime()[3] <= 7:
 	run = time.localtime()
 elif time.localtime()[3] > 7:
@@ -39,11 +36,11 @@ botrun = datetime.datetime(run[0], run[1], run[2], 7, 0, 1)
 def choosefacility(facility):
 	time.sleep(1)
 	if facility == "gym":
-		driver.find_element_by_xpath("/html/body/div/div/section/div/div/div/div[2]/div/div/div/div[1]/div[1]/ul/li[8]").click() # clicks on the fitness center
+		driver.find_element_by_xpath("/html/body/div/div/section/div/div/div/div[2]/div/div/div/div[1]/div[1]/ul/li[10]").click() # clicks on the fitness center
 	elif facility == "pool":
 		driver.find_element_by_xpath("/html/body/div/div/section/div/div/div/div[2]/div/div/div/div[1]/div[1]/ul/li[2]").click() # clicks on pool
 	elif facility == "wogym":
-		driver.find_element_by_xpath("/html/body/div/div/section/div/div/div/div[2]/div/div/div/div[1]/div[1]/ul/li[13]").click() # clicks on the WO fitness center
+		driver.find_element_by_xpath("/html/body/div/div/section/div/div/div/div[2]/div/div/div/div[1]/div[1]/ul/li[16]").click() # clicks on the WO fitness center
 	for i in range(2): # goes to the slot page of 2 days in advance
 		driver.find_element_by_xpath("/html/body/div/div/section/div/div/div/div[2]/div/div/div/div[1]/div[2]/div[3]/a[2]/i").click()
 	time.sleep(1)
@@ -81,7 +78,7 @@ def login(user,pd):
 	driver.find_element_by_xpath("/html/body/div[2]/form/div[1]/div[2]/input").send_keys(pd) # Inserts pwd
 	driver.find_element_by_xpath("/html/body/div[2]/form/div[2]/div/button").click() # Enter
 
-# Commain chain
+# Command chain
 def book(facility, slot, username, password):
 
 	login(username,password) # Logs in
