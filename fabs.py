@@ -1,19 +1,16 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time, pause, datetime
+from webdriver_manager.chrome import ChromeDriverManager
 
 ####################################################
 #               FABS BOOKING BOT                   #
-#                    v0.7.1                        #
+#                    v0.8                          #
 # ------------------------------------------------ #
 #                  To Do:                          #
 # - make the time.sleep dependant on the loading   #
 # - possibly a GUI                                 #
 ####################################################
-
-PATH = "C:\Program Files (x86)\msedgedriver.exe" # Update for your Edge driver
-driver = webdriver.Edge(executable_path=PATH, options=edge_options)
-driver.get("https://nyuad.dserec.com/online/capacity_widget")
 
 ##########################################
 #              USER SETTINGS             #
@@ -23,6 +20,10 @@ password = "password" # Your password
 facility = "facility" # "gym" or "pool" or "wogym"
 slot = 3 #slot number, indexing starts at 1
 ##########################################
+
+driver = webdriver.Chrome(ChromeDriverManager().install())
+driver.get("https://nyuad.dserec.com/online/capacity_widget")
+
 
 # This calculates when should the bot perform login and booking
 if time.localtime()[3] <= 7:
