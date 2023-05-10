@@ -1,6 +1,8 @@
 # Fabs booking script
 ##### This is a simple python based script to book your gym slot!
 
+- Project discontinued as booking is no longer needed :)
+
 ### Version 0.8
 
 # Installation 
